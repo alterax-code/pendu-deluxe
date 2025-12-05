@@ -642,23 +642,17 @@ class HangmanDeluxe:
         try:
             # === CHARGEMENT DE LA MUSIQUE DE FOND ===
             # Chemin où chercher les fichiers audio
-            music_path = r"C:\Users\lucas\OneDrive\Bureau\CoursEpitech"
-            music_files = []
+           # Chemin relatif vers le dossier assets (fonctionne peu importe où le script est lancé)
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+            music_path = os.path.join(script_dir, "assets", "musique_pendu.mp3")
             
-            # Recherche des fichiers audio compatibles
             if os.path.exists(music_path):
-                for file in os.listdir(music_path):
-                    if file.lower().endswith(('.mp3', '.wav', '.ogg')):
-                        music_files.append(os.path.join(music_path, file))
-            
-            # Charge la première musique trouvée
-            if music_files:
-                pygame.mixer.music.load(music_files[0])
+                pygame.mixer.music.load(music_path)
                 pygame.mixer.music.set_volume(self.music_volume)
                 pygame.mixer.music.play(-1)  # -1 = boucle infinie
-                print(f"Musique chargée: {music_files[0]}")
+                print(f"Musique chargée: {music_path}")
             else:
-                print(f"Aucun fichier audio trouvé dans {music_path}")
+                print(f"Fichier audio non trouvé: {music_path}")
                 self.create_fallback_music()  # Crée une musique de secours
             
             # Crée les effets sonores personnalisés
